@@ -1,7 +1,7 @@
 # reports
 Simple FullRest with Spring Boot and H2
 
-## desciption if task:
+## description of task:
 Создать приложения для работы с докладами и спикерами:
 * Приложение должно быть написано на SpringBoot, spring data jpa и H2. 
 * Приложение должно предоставлять CRUD операции по REST-api, для манипулированием сущностями. 
