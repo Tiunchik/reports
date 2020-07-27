@@ -1,8 +1,8 @@
 package ru.reports.app.speaker;
 
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -15,18 +15,20 @@ public class SpeakerService {
 
     private final ModelMapper mapper;
 
-    public SpeakerService(@Autowired SpeakerRepository speakRepository,
-                         @Autowired ModelMapper mapper) {
+    public SpeakerService(SpeakerRepository speakRepository,
+                         ModelMapper mapper) {
         this.speakRepository = speakRepository;
         this.mapper = mapper;
     }
 
+    @Transactional(readOnly = true)
     public List<SpeakerDTO> getAllSpeakers(){
         return speakRepository.findAll().stream()
                 .map(e -> mapper.map(e, SpeakerDTO.class))
                 .collect(Collectors.toList());
     }
 
+    @Transactional(readOnly = true)
     public SpeakerDTO getSpeakerById(int id) {
         Optional<Speaker> emp = speakRepository.findById(id);
         return emp
@@ -34,6 +36,7 @@ public class SpeakerService {
                 .orElse(null);
     }
 
+    @Transactional
     public SpeakerDTO saveOrUpdateSpeaker(SpeakerDTO speakerDTO){
         return mapper
                 .map(speakRepository
@@ -42,6 +45,7 @@ public class SpeakerService {
                         SpeakerDTO.class);
     }
 
+    @Transactional
     public void deleteSpeaker(int id) {
         speakRepository.deleteById(id);
     }

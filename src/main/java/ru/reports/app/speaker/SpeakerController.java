@@ -13,7 +13,7 @@ public class SpeakerController {
 
     private final SpeakerService speakerService;
 
-    public SpeakerController(@Autowired SpeakerService speakerService) {
+    public SpeakerController(SpeakerService speakerService) {
         this.speakerService = speakerService;
     }
 

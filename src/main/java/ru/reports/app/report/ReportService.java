@@ -1,8 +1,8 @@
 package ru.reports.app.report;
 
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -15,18 +15,20 @@ public class ReportService {
 
     private final ModelMapper mapper;
 
-    public ReportService(@Autowired ReportRepository repRepository,
-                          @Autowired ModelMapper mapper) {
+    public ReportService(ReportRepository repRepository,
+                          ModelMapper mapper) {
         this.repRepository = repRepository;
         this.mapper = mapper;
     }
 
+    @Transactional(readOnly = true)
     public List<ReportDTO> getAllReports(){
         return repRepository.findAll().stream()
                 .map(e -> mapper.map(e, ReportDTO.class))
                 .collect(Collectors.toList());
     }
 
+    @Transactional(readOnly = true)
     public ReportDTO getReportById(long id) {
         Optional<Report> emp = repRepository.findById(id);
         return emp
@@ -34,6 +36,7 @@ public class ReportService {
                 .orElse(null);
     }
 
+    @Transactional
     public ReportDTO saveOrUpdateReport(ReportDTO reportDTO){
         return mapper
                 .map(repRepository
@@ -42,6 +45,7 @@ public class ReportService {
                         ReportDTO.class);
     }
 
+    @Transactional
     public void deleteReposrt(Long id) {
         repRepository.deleteById(id);
     }

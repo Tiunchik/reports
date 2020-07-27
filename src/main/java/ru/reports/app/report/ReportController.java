@@ -13,7 +13,7 @@ public class ReportController {
 
     private final ReportService repService;
 
-    public ReportController(@Autowired ReportService repService) {
+    public ReportController(ReportService repService) {
         this.repService = repService;
     }
 
